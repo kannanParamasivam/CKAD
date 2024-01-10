@@ -9,13 +9,13 @@ Certified Kubernetes Application Developer
 ## Set host name on the servers
 
 ```bash
-sudo hostnamectl set-hostname control-plane
+sudo hostnamectl set-hostname k8s-control-plane
 ```
 
 ```bash
-sudo hostnamectl set-hostname worker-1
+sudo hostnamectl set-hostname k8s-worker-1
 ```
 
 ```bash
-sudo hostnamectl set-hostname worker-2
+sudo hostnamectl set-hostname k8s-worker-2
 ```
