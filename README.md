@@ -19,3 +19,19 @@ sudo hostnamectl set-hostname k8s-worker-1
 ```bash
 sudo hostnamectl set-hostname k8s-worker-2
 ```
+
+## Update host file
+
+### Control plane node
+
+```bash
+~$ sudo vim /etc/hosts
+```
+
+Add the following lines
+
+```bash
+<ip address> k8s-control-plane
+<ip address> k8s-worker-1
+<ip address> k8s-worker-2
+```
