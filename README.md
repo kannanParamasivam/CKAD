@@ -22,8 +22,6 @@ sudo hostnamectl set-hostname k8s-worker-2
 
 ## Update host file
 
-### Control plane node
-
 Do this in each node
 
 ```bash
@@ -82,4 +80,70 @@ Run the following command to load the new settings immediately.
 
 ```bash
 >sudo sysctl --system
+```
+
+Install containerd apt package.
+
+```bash
+sudo apt-get update && sudo apt-get install -y containerd
+```
+
+Create directory for containerd configuration.
+
+```bash
+sudo mkdir -p /etc/containerd
+```
+
+Generate Containerd configuration and pipe it to a file.
+
+```bash
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+```
+
+Restart containerd.
+
+```bash
+sudo systemctl restart containerd
+```
+
+## Install kubernetes packages on each node
+
+Do this in each node.
+
+It is needed to disable swap.
+
+```bash
+sudo swapoff -a
+```
+
+Install https and curl.
+
+```bash
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+```
+
+Download the Google Cloud public signing key and add it to apt.
+
+```bash
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+```
+
+Add the Kubernetes apt repository.
+
+```bash
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+> deb https://apt.kubernetes.io/ kubernetes-xenial main
+> EOF
+```
+
+Install Kubernetes packages.
+
+```bash
+sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl
+```
+
+Disable automatic updates for the kubernetest packages.
+
+```bash
+sudo apt-mark hold kubelet kubeadm kubectl
 ```
