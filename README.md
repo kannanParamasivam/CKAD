@@ -1,4 +1,4 @@
-# CKAD
+# Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
 
@@ -175,3 +175,7 @@ sudo kubeadm token create --print-join-command
 ```
 
 It will take a few minutes for the nodes to join the cluster.
+
+# Major Concepts in CKAD
+
+![picture 1](images/67b376a99f23c0ac141e6d4266f59b0e831c433dff7f0e2d3fe2ee6050c3e82f.png)
