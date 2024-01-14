@@ -147,3 +147,31 @@ Disable automatic updates for the kubernetest packages.
 ```bash
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
+
+## Initialize the control plane (cluster)
+
+Run this only in the control plane node.
+
+```bash
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --kubernetes-version=1.24.0
+```
+
+> `--pod-network-cidr` is the CIDR used by the pod network. This is needed for the pod network to work.
+
+Once the command is finished it will show a command to genrate kube config file used to interact with the cluster.
+
+Install the networking plugin. This is needed for the pods to communicate with each other.
+
+```bash
+sudo kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+```
+
+## Join the worker nodes to the cluster
+
+Run this command on control plane node to generate the command to join the worker nodes to the cluster. Copy the command that is generated and run it on each worker node.
+
+```bash
+sudo kubeadm token create --print-join-command
+```
+
+It will take a few minutes for the nodes to join the cluster.
