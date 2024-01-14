@@ -7,6 +7,7 @@
   - [Initialize the control plane (cluster)](#initialize-the-control-plane-cluster)
   - [Join the worker nodes to the cluster](#join-the-worker-nodes-to-the-cluster)
 - [Major Concepts in CKAD](#major-concepts-in-ckad)
+- [Application Design and Build](#application-design-and-build)
 
 # Kubernetes Cluster Setup
 
@@ -189,3 +190,6 @@ It will take a few minutes for the nodes to join the cluster.
 # Major Concepts in CKAD
 
 ![picture 1](images/67b376a99f23c0ac141e6d4266f59b0e831c433dff7f0e2d3fe2ee6050c3e82f.png)
+
+# Application Design and Build
+![picture 2](images/e31948ec8a5588efaac37f62b9ebb696db16bd08957ba89fcdd34f5ebbbad2ca.png)  
