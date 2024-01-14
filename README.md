@@ -12,6 +12,7 @@
     - [Build image from Dockerfile](#build-image-from-dockerfile)
     - [Run the image](#run-the-image)
     - [Stop the container](#stop-the-container)
+    - [Export the image to a file](#export-the-image-to-a-file)
 
 # Kubernetes Cluster Setup
 
@@ -224,3 +225,10 @@ docker stop my-website
 ```bash
 docker stop <container name>
 ```
+### Export the image to a file
+```bash
+docker save -o my-website_0.0.1.tar my-website:0.0.1
+```
+```bash
+docker save -o <file name> <image name>:<tag>
+``` 
