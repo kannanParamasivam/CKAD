@@ -1,3 +1,13 @@
+- [Kubernetes Cluster Setup](#kubernetes-cluster-setup)
+  - [Playground Setup](#playground-setup)
+  - [Set host name on the servers](#set-host-name-on-the-servers)
+  - [Update host file](#update-host-file)
+  - [Install containerd in each node](#install-containerd-in-each-node)
+  - [Install kubernetes packages on each node](#install-kubernetes-packages-on-each-node)
+  - [Initialize the control plane (cluster)](#initialize-the-control-plane-cluster)
+  - [Join the worker nodes to the cluster](#join-the-worker-nodes-to-the-cluster)
+- [Major Concepts in CKAD](#major-concepts-in-ckad)
+
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
