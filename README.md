@@ -8,6 +8,10 @@
   - [Join the worker nodes to the cluster](#join-the-worker-nodes-to-the-cluster)
 - [Major Concepts in CKAD](#major-concepts-in-ckad)
 - [Application Design and Build](#application-design-and-build)
+  - [Building Container Images](#building-container-images)
+    - [Build image from Dockerfile](#build-image-from-dockerfile)
+    - [Run the image](#run-the-image)
+    - [Stop the container](#stop-the-container)
 
 # Kubernetes Cluster Setup
 
@@ -192,4 +196,31 @@ It will take a few minutes for the nodes to join the cluster.
 ![picture 1](images/67b376a99f23c0ac141e6d4266f59b0e831c433dff7f0e2d3fe2ee6050c3e82f.png)
 
 # Application Design and Build
-![picture 2](images/e31948ec8a5588efaac37f62b9ebb696db16bd08957ba89fcdd34f5ebbbad2ca.png)  
+![picture 2](images/e31948ec8a5588efaac37f62b9ebb696db16bd08957ba89fcdd34f5ebbbad2ca.png) 
+
+## Building Container Images
+Docker file from [here](./create_ngnx_docker_image/Dockerfile)
+
+### Build image from Dockerfile
+```bash
+docker build -t my-wesite:0.0.1 .
+```
+```bash
+docker build -t <image name>:<tag> <path to docker file>
+```
+### Run the image
+```bash
+docker run --rm --name my-website -d -p 8080:80 my-website:0.0.1
+```
+```bash
+docker run --rm --name <container name> -d -p <host port>:<container port> <image name>:<tag>
+```
+now if you go to http://localhost:8080 you will see the website running.
+
+### Stop the container
+```bash
+docker stop my-website
+```
+```bash
+docker stop <container name>
+```
