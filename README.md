@@ -1,3 +1,5 @@
+# Index
+- [Index](#index)
 - [Kubernetes Cluster Setup](#kubernetes-cluster-setup)
   - [Playground Setup](#playground-setup)
   - [Set host name on the servers](#set-host-name-on-the-servers)
@@ -13,7 +15,6 @@
     - [Run the image](#run-the-image)
     - [Stop the container](#stop-the-container)
     - [Export the image to a file](#export-the-image-to-a-file)
-
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -191,11 +192,11 @@ sudo kubeadm token create --print-join-command
 ```
 
 It will take a few minutes for the nodes to join the cluster.
-
+[Index](#index)
 # Major Concepts in CKAD
 
 ![picture 1](images/67b376a99f23c0ac141e6d4266f59b0e831c433dff7f0e2d3fe2ee6050c3e82f.png)
-
+[Index](#index)
 # Application Design and Build
 ![picture 2](images/e31948ec8a5588efaac37f62b9ebb696db16bd08957ba89fcdd34f5ebbbad2ca.png) 
 
