@@ -240,4 +240,20 @@ A job creates one or more pods and ensures that a specified number of them succe
 
 Here is the job definition file [job](./job/my-job.yml)
 
+Apply the job definition file
+```bash
+kubectl apply -f my-job.yml
+```
+get jobs
+```bash
+kubectl get jobs
+```
+get pods
+```bash
+kubectl get pods
+```
+get logs of the pod
+```bash
+kubectl logs <pod name>
+```
 [Index](#index)
