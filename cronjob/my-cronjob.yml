@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-cronjob
+  labels:
+    appVersion: v1 
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: print-message
+              image: busybox:stable
+              command: ["echo", "test message from Cronjob!"]
+          restartPolicy: Never
+      backoffLimit: 4
+      activeDeadlineSeconds: 10
