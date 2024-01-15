@@ -16,6 +16,7 @@
     - [Stop the container](#stop-the-container)
     - [Export the image to a file](#export-the-image-to-a-file)
   - [Job](#job)
+  - [CronJob](#cronjob)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -257,3 +258,14 @@ get logs of the pod
 kubectl logs <pod name>
 ```
 [Index](#index)
+## CronJob
+A Cron Job creates Jobs on a repeating schedule.
+Here is the cron job definition file [cron job](./cronjob/my-cronjob.yml)
+Apply the cron job definition file.
+```bash
+kubectl apply -f my-cronjob.yml
+```
+list cron jobs
+```bash
+kubectl get cronjobs
+```
