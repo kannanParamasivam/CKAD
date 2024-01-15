@@ -15,6 +15,7 @@
     - [Run the image](#run-the-image)
     - [Stop the container](#stop-the-container)
     - [Export the image to a file](#export-the-image-to-a-file)
+  - [Job](#job)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -233,3 +234,10 @@ docker save -o my-website_0.0.1.tar my-website:0.0.1
 ```bash
 docker save -o <file name> <image name>:<tag>
 ``` 
+[Index](#index)
+## Job
+A job creates one or more pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the job tracks the successful completions. When a specified number of successful completions is reached, the job itself is complete. Deleting a Job will clean up the pods it created.
+
+Here is the job definition file [job](./my-job.yml)
+
+[Index](#index)
