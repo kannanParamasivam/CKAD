@@ -238,6 +238,6 @@ docker save -o <file name> <image name>:<tag>
 ## Job
 A job creates one or more pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the job tracks the successful completions. When a specified number of successful completions is reached, the job itself is complete. Deleting a Job will clean up the pods it created.
 
-Here is the job definition file [job](./my-job.yml)
+Here is the job definition file [job](./job/my-job.yml)
 
 [Index](#index)
