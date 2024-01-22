@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app-deployment
+  labels:
+    app: web-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+      initContainers:
+        - name: init-container
+          image: busybox:stable
+          command: ["/bin/sh", "-c", "sleep 60"]
+      volumes:
+        - name: html-volume
+          configMap:
+            name: web-app-html-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app-service
+spec:
+  selector:
+    app: web-app
+  ports:
+    - protocol: TCP
+      port: 9076
+      targetPort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-app-html-configmap
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+      Welcome to multicontainer practice web app...!
+    </html>
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client-app
+spec:
+  containers:
+    - name: client-app
+      image: curlimages/curl:latest
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          while true; do
+            curl http://localhost:9090
+            sleep 5
+          done
+    - name: haproxy
+      image: haproxy:latest
+      ports:
+        - containerPort: 9090
+      volumeMounts:
+        - name: haproxy-config-volume
+          mountPath: /usr/local/etc/haproxy
+  volumes:
+    - name: haproxy-config-volume
+      configMap:
+        name: haproxy-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: haproxy-config
+data:
+  haproxy.cfg: |
+    frontend my-frontend
+      bind *:9090
+      mode http
+      default_backend my-backend
+
+    backend my-backend
+      mode http
+      balance roundrobin
+      server my-service web-app-service:9076 check
