@@ -17,6 +17,7 @@
     - [Export the image to a file](#export-the-image-to-a-file)
   - [Job](#job)
   - [CronJob](#cronjob)
+  - [Init Container](#init-container)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -269,3 +270,13 @@ list cron jobs
 ```bash
 kubectl get cronjobs
 ```
+## Init Container
+An init container is a container that runs before the main container. 
+
+* The init container will *run to completion before the main container starts*. If the init container fails, the pod will not start.
+* It uses the different image than the main container.
+* It can be used to perform *initialization logic* such as creating directories, downloading files, etc. 
+* This can be used to *delay the start of the main container* until certain conditions are met.
+* Init Containers can perform *sensitive initialization* logic such as fetching secrets from a vault in isolation from the main container.
+
+"Here is an example of an init container [init container](./init-container/init-container.yml). In this scenario, the main container will initiate once the init container completes its sleep cycle of one minute."
