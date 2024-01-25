@@ -20,6 +20,7 @@
   - [Init Container](#init-container)
   - [Volume](#volume)
     - [HostPath Volume](#hostpath-volume)
+    - [EmptyDir Volume](#emptydir-volume)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -290,3 +291,8 @@ A volume is a directory that is accessible to all containers in a pod. It is use
 A hostPath volume mounts a file or directory from the host node's filesystem into your pod. This is not something that most Pods will need, but it offers a powerful escape hatch for some applications.
 
 [Here](./volume-hostpath/hostpath-volume.yml) is an example of a hostPath volume. Before trying this example, create a file with the location /etc/hostname in the worker node. 
+
+### EmptyDir Volume
+EmptyDir volumes are created when a Pod is assigned to a Node, and they are deleted when the Pod is evicted from the Node for any reason.
+
+[Here](./volume-emptydir/emptydir-volume.yml) is an example of an emptyDir volume. In this example, the init container creates a file in the emptyDir volume and the main container reads the file from the emptyDir volume.

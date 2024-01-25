@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir-volume-test
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: busybox
+      image: busybox:stable
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+           cat /data/data.txt;
+      volumeMounts:
+        - name: emptydir-volume
+          mountPath: /data
+  initContainers:
+    - name: busybox-initcontainer
+      image: busybox:stable
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo 'writing to empydir location from init container...!!!' > /data/data.txt;
+      volumeMounts:
+        - name: emptydir-volume
+          mountPath: /data
+  volumes:
+    - name: emptydir-volume
+      emptyDir: {}
