@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pv-pod-test
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: main-container
+      image: busybox:stable
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          cat /data/data.txt;
+      volumeMounts:
+        - name: pv-host-data
+          mountPath: /data
+  initContainers:
+    - name: init-container
+      image: busybox:stable
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo 'data from persistent volume written by init container...!!!' > /data/data.txt;
+      volumeMounts:
+        - name: pv-host-data
+          mountPath: /data
+  volumes:
+    - name: pv-host-data
+      persistentVolumeClaim:
+        claimName: hostpath-pvc

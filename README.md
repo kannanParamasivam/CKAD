@@ -21,6 +21,7 @@
   - [Volume](#volume)
     - [HostPath Volume](#hostpath-volume)
     - [EmptyDir Volume](#emptydir-volume)
+    - [Persistent Volume](#persistent-volume)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -296,3 +297,9 @@ A hostPath volume mounts a file or directory from the host node's filesystem int
 EmptyDir volumes are created when a Pod is assigned to a Node, and they are deleted when the Pod is evicted from the Node for any reason.
 
 [Here](./volume-emptydir/emptydir-volume.yml) is an example of an emptyDir volume. In this example, the init container creates a file in the emptyDir volume and the main container reads the file from the emptyDir volume.
+
+### Persistent Volume
+Persistent Volumes allows you to abstract volume storage details from the pod. It is a cluster-wide resource that you can use to store data in a way that is independent of any single pod. This treats storage like a consumable resource that can be requested by applications.
+![picture 3](images/4d24a4c2afec7da70fcd5f596ca37b0b0c4424919c472123667fcd5f658e78ad.png)  
+
+[Here](./volume-persistentVolume/pv-pod-test.yml) is the pod uses the persistent volume. 
