@@ -18,6 +18,8 @@
   - [Job](#job)
   - [CronJob](#cronjob)
   - [Init Container](#init-container)
+  - [Volume](#volume)
+    - [HostPath Volume](#hostpath-volume)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -280,3 +282,11 @@ An init container is a container that runs before the main container.
 * Init Containers can perform *sensitive initialization* logic such as fetching secrets from a vault in isolation from the main container.
 
 "Here is an example of an init container [init container](./init-container/init-container.yml). In this scenario, the main container will initiate once the init container completes its sleep cycle of one minute."
+
+## Volume
+A volume is a directory that is accessible to all containers in a pod. It is used to share data between containers in a pod.
+
+### HostPath Volume
+A hostPath volume mounts a file or directory from the host node's filesystem into your pod. This is not something that most Pods will need, but it offers a powerful escape hatch for some applications.
+
+[Here](./volume-hostpath/hostpath-volume.yml) is an example of a hostPath volume. Before trying this example, create a file with the location /etc/hostname in the worker node. 
