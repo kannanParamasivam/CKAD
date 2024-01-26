@@ -22,6 +22,15 @@
     - [HostPath Volume](#hostpath-volume)
     - [EmptyDir Volume](#emptydir-volume)
     - [Persistent Volume](#persistent-volume)
+- [Application Deployment](#application-deployment)
+  - [Rolling Update](#rolling-update)
+  - [Deployment Strategies](#deployment-strategies)
+  - [Helm](#helm)
+    - [Install helm](#install-helm)
+    - [Add a Helm repository](#add-a-helm-repository)
+    - [search for a package in the repo](#search-for-a-package-in-the-repo)
+    - [Install a package](#install-a-package)
+    - [Uninstall a package](#uninstall-a-package)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -285,6 +294,8 @@ An init container is a container that runs before the main container.
 
 "Here is an example of an init container [init container](./init-container/init-container.yml). In this scenario, the main container will initiate once the init container completes its sleep cycle of one minute."
 
+![picture 4](images/333155bf2b7990fa8026d6a032c9aa2eb2ffbe024f78a7999d5007b6c39c44b5.png)  
+
 ## Volume
 A volume is a directory that is accessible to all containers in a pod. It is used to share data between containers in a pod.
 
@@ -303,3 +314,93 @@ Persistent Volumes allows you to abstract volume storage details from the pod. I
 ![picture 3](images/4d24a4c2afec7da70fcd5f596ca37b0b0c4424919c472123667fcd5f658e78ad.png)  
 
 [Here](./volume-persistentVolume/pv-pod-test.yml) is the pod uses the persistent volume. 
+
+# Application Deployment
+
+[Here](./Deployment/simple-deployment.yml) is a simple deployment file.
+
+Command to Sale the deployment up/down
+```shell
+kubectl scale deployment <deployment name> --replicas=<number of replicas>
+```
+You can directly edit the deployment file and apply it again. While editing you can update the replica count as well.
+```shell
+kubectl edit deployment <deployment name>
+```
+
+## Rolling Update
+Rolling update is the default update strategy. It updates the pods one by one. It will create a new pod with the new image and then delete the old pod. This will ensure that the application is always available.
+
+You can use rolling update to deploy a new version of the application.
+
+Whenever you change the deployment file and apply it again, it will trigger a rolling update.
+
+Command to update the image of the deployment
+```shell
+kubectl set image deployment/<deployment name> <container name>=<new image name>
+```
+Command to update image for all containers in a deployment
+```shell
+kubectl set image deployment/<deployment_name> *=<new_image>
+```
+
+Get rollout status
+```shell
+kubectl rollout status deployment/<deployment name>
+```
+Get rollout history
+```shell
+kubectl rollout history deployment/<deployment name>
+```
+
+Undo the rollout to previous version
+```shell
+kubectl rollout undo deployment/<deployment name>
+```
+
+## Deployment Strategies
+A Deployment Strategy is a methhod of rolling out new code that is used to achieve some benefit, such as increasing reliability and minimizing risk.
+
+## Helm
+Helm is a package manager for Kubernetes. It is used to install applications on Kubernetes. It is like apt or yum for Kubernetes.
+
+### Install helm
+```shell
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+```
+```shell
+apt-get install helm
+```
+
+### Add a Helm repository
+```shell
+helm repo add <repo name> <repo url>
+```
+sample bitnami repo
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+### search for a package in the repo
+```shell
+helm search repo <repo name> <package name>
+```
+```shell
+helm search repo bitnami
+```
+
+### Install a package
+```shell
+helm install <package name> -n <namespace name> <name to the application> <repo name>/<package name>
+```
+```shell  
+helm install --set persistence.enabled=false -n dokuwiki dokuwiki bitnami/dokuwiki
+```
+
+### Uninstall a package
+```shell
+helm uninstall -n <namespace name> <package name>
+```
+```shell
+helm uninstall -n dokuwiki dokuwiki
+```
