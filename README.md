@@ -424,11 +424,18 @@ Liveness probe is used to check if the application is alive. If the liveness pro
 
 [Here](./liveness-probe/liveness-probe.yml) is an example of a liveness probe.
 
+`initialDelaySeconds` is the time to wait before starting the probe. This is needed because the application may take some time to start.
+
+`periodSeconds` is the time between two probes.
 
 ### Readiness Probe
 Readiness probe is used to check if the application is ready to receive traffic. If the readiness probe fails, the pod will be removed from the service.
 
 [Here](./readiness-probe/readiness-probe-test.yml) is an example of a readiness probe.
+
+`initialDelaySeconds` is the time to wait before starting the probe. This is needed because the application may take some time to start. Old pod will be removed from the service only after the new pod is ready to receive traffic.
+
+`periodSeconds` is the time between two probes.
 
 ### Startup Probe
 Startup probe is used to check if the application is ready to receive traffic. If the startup probe fails, the pod will be restarted. It is used in slow starting applications to check if container is healthy during the extended startup period.

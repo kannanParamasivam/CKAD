@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:stable
+          image: nginx:1.14.1
           ports:
             - containerPort: 80
           livenessProbe:
             httpGet:
-              path: /oweiuroiweuojldfksgj
+              path: /
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 2
