@@ -31,6 +31,12 @@
     - [search for a package in the repo](#search-for-a-package-in-the-repo)
     - [Install a package](#install-a-package)
     - [Uninstall a package](#uninstall-a-package)
+- [Application Observability and Maintenance](#application-observability-and-maintenance)
+  - [Deprecation Policy](#deprecation-policy)
+  - [Probes and Health Checks](#probes-and-health-checks)
+    - [Liveness Probe](#liveness-probe)
+    - [Readiness Probe](#readiness-probe)
+    - [Startup Probe](#startup-probe)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -404,3 +410,26 @@ helm uninstall -n <namespace name> <package name>
 ```shell
 helm uninstall -n dokuwiki dokuwiki
 ```
+
+# Application Observability and Maintenance
+
+## Deprecation Policy
+Kubernetes removes a deprecated feature that is GA (General Availability) in 12 months or next 3 releases, whichever is longer.
+
+## Probes and Health Checks
+Probes are used to check the health of the application. There are three types of probes.
+
+### Liveness Probe
+Liveness probe is used to check if the application is alive. If the liveness probe fails, the pod will be restarted.
+
+[Here](./liveness-probe/liveness-probe.yml) is an example of a liveness probe.
+
+
+### Readiness Probe
+Readiness probe is used to check if the application is ready to receive traffic. If the readiness probe fails, the pod will be removed from the service.
+
+[Here](./readiness-probe/readiness-probe-test.yml) is an example of a readiness probe.
+
+### Startup Probe
+Startup probe is used to check if the application is ready to receive traffic. If the startup probe fails, the pod will be restarted. It is used in slow starting applications to check if container is healthy during the extended startup period.
+

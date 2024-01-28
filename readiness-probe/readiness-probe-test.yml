@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readiness-app
+  labels:
+    app: readiness-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: readiness-app
+  template:
+    metadata:
+      labels:
+        app: readiness-app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /oweiuroiweuojldfksgj
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 5
