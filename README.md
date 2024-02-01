@@ -37,6 +37,10 @@
     - [Liveness Probe](#liveness-probe)
     - [Readiness Probe](#readiness-probe)
     - [Startup Probe](#startup-probe)
+- [Application Observability and Maintenance](#application-observability-and-maintenance-1)
+  - [Monitoring](#monitoring)
+  - [Container Logging](#container-logging)
+  - [Custom Resource Definition (CRD)](#custom-resource-definition-crd)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -440,3 +444,75 @@ Readiness probe is used to check if the application is ready to receive traffic.
 ### Startup Probe
 Startup probe is used to check if the application is ready to receive traffic. If the startup probe fails, the pod will be restarted. It is used in slow starting applications to check if container is healthy during the extended startup period.
 
+# Application Observability and Maintenance
+
+## Monitoring
+Monitoring is the process of collecting metrics and events from the cluster and applications. It is used to detect and diagnose problems.
+
+Command to view the metrics of the cluster
+```shell
+kubectl top node(s)/pod(s) -n <namespace name wich is optional>
+```
+
+Following manifest deploys a pod that consumes resources. Once applied you can run `kubectl top pods` to see the resource consumption.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resource-consumer-pod
+spec:
+  containers:
+  - name: resource-consumer-container
+    image: ubuntu:latest
+    command:
+    - "/bin/sh"
+    - "-c"
+    - "apt-get update && apt-get install -y stress && stress --cpu 1 --vm-bytes 128M --vm-keep"
+
+```
+
+## Container Logging
+Kubernetes stores the stdout and stderr console output for each container in the container log. You can view the logs using the following command. You can use `-f` flag to view the logs in real time.
+
+```shell
+kubectl logs <pod name> -n <namespace name>
+```
+
+In multicountainer pods, you can specify the container name to view the logs of a specific container. If you have more than one container in a pod, you need to specify the container name else it will show an error.
+
+```shell
+kubectl logs <pod name> -n <namespace name> -c <container name>
+```
+
+All System and user defined pod logs will be at **`/var/log/pods/`** location of the control plane node. You can use `kubectl describe pod <pod name> -n <namespace name>` to get the location of the log file.
+
+To view kubelet logs, use the following command.
+
+```shell
+sudo journalctl -u kubelet
+```
+
+To get pods from all namespaces, use the following command.
+
+```shell
+kubectl get pods --all-namespaces
+```
+
+## Custom Resource Definition (CRD)
+
+Custom Resource Definitions (CRDs) are extensions of the Kubernetes API. Once created, they can be used like any other resource in the system. They can be created using the `kubectl apply` command.
+
+[Here](./crd/pdf-crd.yml) is an example of a CRD.
+
+Command to create CRD
+```shell
+kubectl apply -f pdf-crd.yml
+```
+
+Commd to get api resources
+```shell
+kubectl api-resources
+```
+
+[Here](./crd/pdfdocument.yaml) is an example of a custom resource usage.
