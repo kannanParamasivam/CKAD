@@ -1,0 +1,3 @@
+kube-apiserver:
+  admission-control:
+    - NamespaceAutoProvision

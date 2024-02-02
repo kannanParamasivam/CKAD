@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sa-deployment
+  labels:
+    app: sa-test
+spec:
+  selector:
+    matchLabels:
+      app: sa-test
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: sa-test
+    spec:
+      serviceAccountName: my-sa
+      containers:
+        - name: busybox
+          image: radial/busyboxplus:curl
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              while true; do
+              currentDateTime=$(date +"%Y-%m-%d %H:%M:%S")
+              echo $currentDateTime
+              curl -s --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes/api/v1/namespaces/default/pods;
+              sleep 5;
+              done

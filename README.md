@@ -40,7 +40,12 @@
 - [Application Observability and Maintenance](#application-observability-and-maintenance-1)
   - [Monitoring](#monitoring)
   - [Container Logging](#container-logging)
+- [Application Environment, Configuration, and Security](#application-environment-configuration-and-security)
   - [Custom Resource Definition (CRD)](#custom-resource-definition-crd)
+  - [Service Account](#service-account)
+  - [Roles](#roles)
+  - [Role Binding](#role-binding)
+  - [Admission Controllers](#admission-controllers)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -499,6 +504,8 @@ To get pods from all namespaces, use the following command.
 kubectl get pods --all-namespaces
 ```
 
+# Application Environment, Configuration, and Security
+
 ## Custom Resource Definition (CRD)
 
 Custom Resource Definitions (CRDs) are extensions of the Kubernetes API. Once created, they can be used like any other resource in the system. They can be created using the `kubectl apply` command.
@@ -516,3 +523,47 @@ kubectl api-resources
 ```
 
 [Here](./crd/pdfdocument.yaml) is an example of a custom resource usage.
+
+## Service Account
+Service account is used to authenticate the pods to the Kubernetes API server. It is used to control the permissions of the pods.
+
+A **token** is mounted to the pod at **`/var/run/secrets/kubernetes.io/serviceaccount/token`**. This token is used to authenticate the pod to the Kubernetes API server.
+
+![picture 5](images/6f86a0c43e72b136c2b341d64ff1240d2e25aab9b11a47ddc999a82c701567f1.png)  
+
+[Here](./service-accounts/service-account.yml) is an example of a service account.
+[Here](./service-accounts/sa-pod.yml) is an example of a pod using the service account.
+
+## Roles
+Roles are used to define the permissions list. Permission list is a list of verbs and resources. Verbs are the actions that can be performed on the resources. In Roles manifest permissions lists are called rules.
+
+There are two types of roles Roles and ClusterRoles. Roles are used to define the permissions for a specific namespace. ClusterRoles are used to define the permissions for the entire cluster.
+
+[Here](./service-accounts/role-pod-list.yml) is an example of a role that allows listing on pods.
+
+## Role Binding
+Role binding is used to bind the role to the users or service accounts. It is used to give the permissions to the user or service account.
+
+There are two types of RoleBindings, RoleBinding and ClusterRoleBinding. RoleBinding is used to bind the role to the user or service account in a specific namespace. ClusterRoleBinding is used to bind the role to the user or service account in the entire cluster.
+
+![picture 6](images/3e35b255a667ee265d2412921af2a6eb4b44ef061692450a6b7cb91f8637ad67.png)  
+
+## Admission Controllers
+Admission controllers intercept requests to the Kubernetes API server after authentication and authorization but before the object is persisted. They can be used to validate, deny or even modify the request.
+
+Admission controllers comes with a set of admission controllers that are enabled or can be enabled. You can also create your own admission controllers.
+
+![picture 7](images/e35e2d18497c6f0b64ba5c1cd4973dd8d0d526bfdc66efbbaf63eddd7ce2996a.png)  
+
+[Here](./admission-controller/new-namespace-pod.yml) is the manifest that try to create a pod in the namespace that does not exist. It will be denied by the admission controller.
+
+To make add the admission controller to the cluster, you need to add the following line to the kube-apiserver manifest file.
+
+```yaml
+sudo vim /etc/kubernetes/manifests/kube-apiserver.yaml
+```
+
+Add add the following word.
+![picture 8](images/1f2878e5b52acb26349c7f62d500bb267f3a9d1fed32e564c9ade2f9df9d0177.png)  
+
+Once it is saved, the kube-apiserver will be restarted and the admission controller will be added to the cluster. This change will allow the pods creation in the non-existing namespace in which case it will create the namespace and then create the pod.
