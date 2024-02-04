@@ -582,8 +582,29 @@ Kubernetes provides a number of features to manage compute resources for contain
 | The cluster uses this information to decide which node to place the pod on. | The cluster uses this information to **terminate the container process** if it attemps to use more than the allowed amount. |
 | Requests are not hard limits. | Limits are hard limits. |
 
+[Here](./resources/resources.yml) is an example of a pod with requests and limits.
+
 ### Resource Quotas
 A ResourceQuota is a **kubernetes object** that sets limit on the resources userd **within a namespace**. If creating or modifying a resource would go beyond the quota, the request will be denied.
+
+To be able to add resource quota, you need to add the following admission plugin to the kube-apiserver manifest file.
+
+Once quota is created, **all the container resources should include the requests and limits**.
+
+```yaml
+sudo vim /etc/kubernetes/manifests/kube-apiserver.yaml
+```
+![picture 9](images/7a5bda00c690caf2fbad1f336a7fb9efcd1500e0ed09dd4db8c7043e46986f3b.png)  
+Once saved and exited the kube api server will be restarted. Now you can create resource quota.
+
+coammnd to list quotas with current usage
+```shell
+kubectl get resourcequota -n <namespace name>
+```
+
+[Here](./resources/quota-definition.yml) is an example of a resource quota definition.
+
+If you try to apply [this](./resources/resources-exceeds.yml) it will be scheduled but not created. When you describe the replica set you can see the reason for the failure as `exceeded quota: limits.memory`.
 
 
 # note
