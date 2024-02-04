@@ -46,6 +46,10 @@
   - [Roles](#roles)
   - [Role Binding](#role-binding)
   - [Admission Controllers](#admission-controllers)
+  - [Managing Compute Resources for Containers](#managing-compute-resources-for-containers)
+    - [Requests \& Limits](#requests--limits)
+    - [Resource Quotas](#resource-quotas)
+- [note](#note)
 # Kubernetes Cluster Setup
 
 Certified Kubernetes Application Developer
@@ -567,3 +571,25 @@ Add add the following word.
 ![picture 8](images/1f2878e5b52acb26349c7f62d500bb267f3a9d1fed32e564c9ade2f9df9d0177.png)  
 
 Once it is saved, the kube-apiserver will be restarted and the admission controller will be added to the cluster. This change will allow the pods creation in the non-existing namespace in which case it will create the namespace and then create the pod.
+
+## Managing Compute Resources for Containers
+Kubernetes provides a number of features to manage compute resources for containers. These features are used to manage the resources such as CPU and memory.
+
+### Requests & Limits
+| Resource | Limits |
+| --- | --- |
+|  Provides Kubernetes with an idea of how much resources the container is expected to use. | Provides an upper limit on how many resources a container is alloed to use. |
+| The cluster uses this information to decide which node to place the pod on. | The cluster uses this information to **terminate the container process** if it attemps to use more than the allowed amount. |
+| Requests are not hard limits. | Limits are hard limits. |
+
+### Resource Quotas
+A ResourceQuota is a **kubernetes object** that sets limit on the resources userd **within a namespace**. If creating or modifying a resource would go beyond the quota, the request will be denied.
+
+
+# note
+
+Port forwarding command for service 
+`kubectl port-forward svc/nginx 8080:80`
+
+List pods with label
+`kubectl get pods -l app=nginx`
