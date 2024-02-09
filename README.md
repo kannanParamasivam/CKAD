@@ -54,6 +54,11 @@
     - [User ID and Group ID](#user-id-and-group-id)
     - [Allow Privilege Escalation](#allow-privilege-escalation)
     - [Read Only Root Filesystem](#read-only-root-filesystem)
+- [Services and Networking](#services-and-networking)
+  - [Controlling Network Access with NetworkPolicies - Part 1](#controlling-network-access-with-networkpolicies---part-1)
+    - [Kubernetes Networking](#kubernetes-networking)
+    - [Network Policies](#network-policies)
+    - [Isolated vs Non-Isolated Pods](#isolated-vs-non-isolated-pods)
 - [note](#note)
 # Kubernetes Cluster Setup
 
@@ -658,6 +663,26 @@ or
 ```shell
 kubectl exec <pod name> -n <namespace name> -- touch /test.txt
 ```
+
+# Services and Networking
+
+## Controlling Network Access with NetworkPolicies - Part 1
+
+### Kubernetes Networking
+
+ The Kubernetes cluster uses a **Virtual Network** to allow Pods to communicate with one another seamlessly, even if they are on different nodes. 
+
+![picture 11](images/167835f87cfab25a71789381b5ffeb6d44f45adedb654e8d21ebc2be6acacf49.png)  
+
+### Network Policies
+
+A NetworkPolicy is a **Kubernetes object** that allows you to restrict network traffic to and from Pods within the cluster network. It is used to control the traffic flow between the pods.
+
+Use NetworkPolicies to **block** unnessary or unexpected network traffic and make your applications more secure.
+
+### Isolated vs Non-Isolated Pods
+
+![picture 12](images/fdd48e869b5062efa0bf560aab1adab877463fedcef0f639fd94b6cc1345ebc4.png)  
 
 # note
 
