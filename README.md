@@ -49,6 +49,7 @@
   - [Managing Compute Resources for Containers](#managing-compute-resources-for-containers)
     - [Requests \& Limits](#requests--limits)
     - [Resource Quotas](#resource-quotas)
+  - [ConfigMaps and Secrets](#configmaps-and-secrets)
 - [note](#note)
 # Kubernetes Cluster Setup
 
@@ -606,6 +607,14 @@ kubectl get resourcequota -n <namespace name>
 
 If you try to apply [this](./resources/resources-exceeds.yml) it will be scheduled but not created. When you describe the replica set you can see the reason for the failure as `exceeded quota: limits.memory`.
 
+## ConfigMaps and Secrets
+ConfigMaps and Secrets are used to store configuration data and sensitive data respectively. They are used to decouple the configuration and secrets from the pods.
+
+Kubernetes has options to encrypt the secrets.
+
+![picture 10](images/87f6f8a5373d07dcea653a0d231c46f571245a68385ed125647d422703fb6baf.png)  
+
+[Here](./confgimaps-secrets/)
 
 # note
 
