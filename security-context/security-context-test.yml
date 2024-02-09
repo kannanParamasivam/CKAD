@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-context-test
+  labels:
+    app: sc-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sec-test
+  template:
+    metadata:
+      labels:
+        app: sec-test
+    spec:
+      containers:
+        - name: busybox
+          image: busybox:stable
+          command: ["/bin/sh", "-c"]
+          args: 
+            - |
+              while true; do
+                echo Running!
+                sleep 5
+              done
+          securityContext:
+            runAsUser: 3000
+            runAsGroup: 4000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true

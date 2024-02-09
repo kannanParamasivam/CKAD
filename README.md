@@ -50,6 +50,10 @@
     - [Requests \& Limits](#requests--limits)
     - [Resource Quotas](#resource-quotas)
   - [ConfigMaps and Secrets](#configmaps-and-secrets)
+  - [Security Context](#security-context)
+    - [User ID and Group ID](#user-id-and-group-id)
+    - [Allow Privilege Escalation](#allow-privilege-escalation)
+    - [Read Only Root Filesystem](#read-only-root-filesystem)
 - [note](#note)
 # Kubernetes Cluster Setup
 
@@ -617,6 +621,43 @@ Kubernetes has options to encrypt the secrets.
 [Here](./configmaps-secrets/config-map-example.yml) is an example of a config map which is loaded to the environment variable and volume.
 
 [Here](./configmaps-secrets/secret-example.yml) is an example of a secret which is loaded to the environment variable and volume.
+
+## Security Context
+A Security Context is used to control the security settings of a pod or container. It is used to control the security settings such as user id, group id, capabilities, etc.
+
+Security context can be set at the pod level and at the container level.
+
+### User ID and Group ID
+You can customize the user and group id used by the container process. This is used to control the permissions of the container process.
+
+### Allow Privilege Escalation
+You can enable or disable privilege escalation for the container process.
+
+### Read Only Root Filesystem
+You can set the container's root filesystem to be read only.
+
+[Here](./security-context/security-context-test.yml) is an example of a security context in container level.
+
+Once this is applied, you can exec into the pod and check the user id and group id of the container process.
+
+```shell
+kubectl exec -it <pod name> -n <namespace name> -- /bin/sh
+~$ id
+```
+or
+```shell
+kubectl exec <pod name> -n <namespace name> -- id
+```
+
+You can try create/edit the file. It will show an error because the root file system is read only.
+
+```shell
+~$ touch /test.txt
+```
+or
+```shell
+kubectl exec <pod name> -n <namespace name> -- touch /test.txt
+```
 
 # note
 
