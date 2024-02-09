@@ -614,7 +614,9 @@ Kubernetes has options to encrypt the secrets.
 
 ![picture 10](images/87f6f8a5373d07dcea653a0d231c46f571245a68385ed125647d422703fb6baf.png)  
 
-[Here](./confgimaps-secrets/)
+[Here](./configmaps-secrets/config-map-example.yml) is an example of a config map which is loaded to the environment variable and volume.
+
+[Here](./configmaps-secrets/secret-example.yml) is an example of a secret which is loaded to the environment variable and volume.
 
 # note
 
