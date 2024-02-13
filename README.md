@@ -676,13 +676,16 @@ kubectl exec <pod name> -n <namespace name> -- touch /test.txt
 
 ### Network Policies
 
-A NetworkPolicy is a **Kubernetes object** that allows you to restrict network traffic to and from Pods within the cluster network. It is used to control the traffic flow between the pods.
+A NetworkPolicy is a **Kubernetes object** that allows you to **restrict network traffic** to and from Pods within the cluster network. It is used to control the traffic flow between the pods.
 
 Use NetworkPolicies to **block** unnessary or unexpected network traffic and make your applications more secure.
 
 ### Isolated vs Non-Isolated Pods
 
 ![picture 12](images/fdd48e869b5062efa0bf560aab1adab877463fedcef0f639fd94b6cc1345ebc4.png)  
+
+Network Policies use selector to select pods. The pods that are selected by atleast one network policy are called **isolated pods**. The pods that are not selected by any network policy are called **non-isolated pods**.
+
 
 # note
 
