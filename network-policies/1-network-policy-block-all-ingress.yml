@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: np-test-a
+  labels:
+    team: ateam
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: np-test-b
+  labels:
+    team: bteam
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  namespace: np-test-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: np-test-server
+  template:
+    metadata:
+      labels:
+        app: np-test-server
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-svc
+  namespace: np-test-a
+spec:
+  selector:
+    app: np-test-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np-test-a-ingress-default-deny
+  namespace: np-test-a
+spec:
+  podSelector: {} # Selects all pods in the namespace (Empty Pos Selector)
+  policyTypes:
+    - Ingress # This by deafult denies all ingress traffic
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+  namespace: np-test-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: np-test-client
+  template:
+    metadata:
+      labels:
+        app: np-test-client
+    spec:
+      containers:
+        - name: client-app
+          image: curlimages/curl:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              while true; do
+                echo $(date)
+                curl -m 2 server-svc.np-test-a.svc.cluster.local
+                sleep 5
+              done
+---
+
